@@ -3,14 +3,14 @@ const User = require("../model/user.model");
 const jwt = require("jsonwebtoken");
 
 const newToken = (user) => {
-  return jwt.sign({ id: user.id }, config.secrets.jwt, {
-    expiresIn: config.secrets.jwtExp,
+  return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: "100d",
   });
 };
 
 const verifyToken = (token) =>
   new Promise((resolve, reject) => {
-    jwt.verify(token, config.secrets.jwt, (err, payload) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) return reject(err);
       resolve(payload);
     });
